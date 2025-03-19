@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readsight - Improving Journalism Analytics Through AI</title>
+    <style>
+        :root {
+            --primary-color: #C41E3A; /* A deeper crimson red */
+            --secondary-color: #B22222; /* Firebrick red */
+            --dark-color: #1A1A1B; /* Dark gray/black for accents */
+            --light-color: #FFFFFF; /* White */
+            --text-color: #222222; /* Near black for text */
+            --warm-accent: #D64550; /* Warmer but still deep red accent */
+            --lighter-bg: #FFF0F0; /* Very light pink/red for backgrounds */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23C41E3A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='12' y1='8' x2='12' y2='16'/><line x1='8' y1='12' x2='16' y2='12'/></svg>") 12 12, auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(194, 30, 58, 0.2);
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 4.5rem 0;
+        }
+        
+        section:nth-child(even) {
+            background-color: var(--lighter-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-title {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .timeline {
+            background-color: var(--lighter-bg);
+            border-radius: 10px;
+            padding: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-item {
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+            border-left: 3px solid var(--primary-color);
+            position: relative;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            left: -9px;
+            top: 5px;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .cta-section {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+            font-weight: 600;
+        }
+        
+        .cta-button:hover {
+            background-color: #A31930;
+            transform: translateY(-3px);
+        }
+        
+        .button-disabled {
+            background-color: #999999;
+            cursor: not-allowed;
+            position: relative;
+        }
+        
+        .button-disabled:hover {
+            background-color: #999999;
+            transform: translateY(0);
+        }
+        
+        .coming-soon-badge {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background-color: var(--dark-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+        }
+        
+        .footer-links {
+            margin-top: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--light-color);
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--warm-accent);
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .about-text {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        @media (max-width: 900px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .timeline {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Readsight</div>
+            <div class="tagline">Improving journalism analytics through AI</div>
+        </div>
+    </header>
+    
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Readsight</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Readsight is a pre-launch data-driven startup focused on improving journalism analytics through AI. 
+                        Our mission is to enhance the quality of journalism and shift users to engage more meaningfully with 
+                        digital articles by making them better.
+                    </p>
+                    <br>
+                    <p>
+                        Our immediate goal is to develop a model that generates retention heatmaps using just scroll position data. 
+                        This experimental approach aims to predict where readers' eyes focus when leaving a webpage and which specific 
+                        words they were reading at exit points, as well as finding areas of attention loss and high emotional response.
+                    </p>
+                </div>
+                <div class="about-image" style="width: 100%; max-width: 600px; margin: 0 auto; height: auto;">
+                    <svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="1000" fill="#1a1a1a"/>
+  
+  <!-- Article Container -->
+  <rect x="50" y="50" width="700" height="900" fill="#1a1a1a" stroke="#333333" stroke-width="1"/>
+  
+  <!-- Masthead -->
+  <rect x="50" y="50" width="700" height="80" fill="#C41E3A"/>
+  <text x="400" y="105" font-family="Georgia, serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#ffffff">THE READSIGHT POST</text>
+  
+  <!-- Date and Edition -->
+  <text x="75" y="155" font-family="Arial, sans-serif" font-size="12" fill="#999999">WEDNESDAY, MARCH 19, 2025</text>
+  <text x="675" y="155" font-family="Arial, sans-serif" font-size="12" text-anchor="end" fill="#999999">DIGITAL EDITION</text>
+  
+  <!-- Article Title -->
+  <text x="75" y="200" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#ffffff">Clickbait headlines: Now a thing</text>
+  <text x="75" y="235" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#ffffff">of the past?</text>
+  
+  <!-- Author -->
+  <text x="75" y="275" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">By Jane Wright, Technology Correspondent</text>
+  
+  <!-- Mock article text (intentionally made illegible/blurry) - single column, text heavy -->
+  <!-- These are the content lines, now in dark grey -->
+  <rect x="75" y="310" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="327" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="344" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="361" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="378" width="620" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="405" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="422" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="439" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="456" width="600" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="483" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="500" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="517" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="534" width="630" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="551" width="560" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="578" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="595" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="612" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="629" width="580" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="656" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="673" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="690" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="707" width="610" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="734" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="751" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="768" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="785" width="590" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="812" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="829" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="846" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="863" width="550" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <rect x="75" y="890" width="650" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  <rect x="75" y="907" width="530" height="7" rx="2" fill="#444444" opacity="0.9"/>
+  
+  <!-- Heatmap rectangles overlay -->
+  <!-- Title area - hottest -->
+  <rect x="75" y="190" width="400" height="55" fill="#E64141" opacity="0.7"/>
+  
+  <!-- Starting paragraphs - warm -->
+  <rect x="75" y="310" width="650" height="50" fill="#F9A52B" opacity="0.5"/>
+  
+  <!-- Gradually cooling down -->
+  <rect x="75" y="360" width="650" height="50" fill="#F9A52B" opacity="0.4"/>
+  <rect x="75" y="410" width="650" height="50" fill="#79B857" opacity="0.4"/>
+  <rect x="75" y="460" width="650" height="50" fill="#79B857" opacity="0.35"/>
+  <rect x="75" y="510" width="650" height="50" fill="#4B70F7" opacity="0.3"/>
+  <rect x="75" y="560" width="650" height="50" fill="#4B70F7" opacity="0.25"/>
+  
+  <!-- One section that gets warmer - around 2/3 down -->
+  <rect x="75" y="610" width="650" height="100" fill="#F9A52B" opacity="0.4"/>
+  
+  <!-- Back to cooling down -->
+  <rect x="75" y="710" width="650" height="50" fill="#79B857" opacity="0.35"/>
+  <rect x="75" y="760" width="650" height="50" fill="#4B70F7" opacity="0.3"/>
+  <rect x="75" y="810" width="650" height="50" fill="#4B70F7" opacity="0.25"/>
+  <rect x="75" y="860" width="650" height="50" fill="#4B70F7" opacity="0.2"/>
+  
+  <!-- Footer -->
+  <rect x="50" y="950" width="700" height="1" fill="#333333"/>
+  <text x="400" y="975" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#999999">© 2025 The Readsight Post | Heatmap indicates reader attention and engagement</text>
+</svg>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="technology">
+        <div class="container">
+            <h2 class="section-title">Our Technology</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">👁️</div>
+                    <h3 class="feature-title">Eye Tracking Analysis</h3>
+                    <p>
+                        We're developing a data collection mechanism where volunteer participants undergo brief calibration 
+                        before reading various articles embedded with our tracking module. We log scroll position and eye movement 
+                        data to train and validate our machine learning models.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Predictive Analytics</h3>
+                    <p>
+                        Our machine learning model processes scroll position data to create attention distribution and loss heatmaps. 
+                        The prediction model integrates metrics for engagement, enjoyment, and insightfulness of article content.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy-First Approach</h3>
+                    <p>
+                        The data we collect is entirely non-identifying and is not linked to individuals by any means. 
+                        We simply collect large amounts of anonymous scrolling data and process it to analyze retention patterns 
+                        without compromising user privacy.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="roadmap">
+        <div class="container">
+            <h2 class="section-title">Development Roadmap</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Current Phase</div>
+                    <h3>Research & Initial Development</h3>
+                    <p>
+                        Developing our volunteer research platform and implementing advanced tracking mechanisms to gather high-quality data. 
+                        Simultaneously, we're designing our initial prediction algorithms and integrating scroll pattern analysis with 
+                        eye movement tracking to create our first generation of attention heatmaps.
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">End of March 2025</div>
+                    <h3>Prototype Completion</h3>
+                    <p>
+                        Fully operational data-collection site and prototype prediction model ready for initial testing
+                        and validation with publishing partners.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Join Our Research Effort</h2>
+            <p>
+                We're looking for volunteers to help us collect data and improve our models. 
+                Participation is simple and helps advance the future of digital journalism.
+            </p>
+            <a href="#" class="cta-button button-disabled">
+                Volunteer Portal
+                <span class="coming-soon-badge">Coming Soon</span>
+            </a>
+        </div>
+    </section>
+    
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto;">
+                Interested in learning more about Readsight or discussing potential collaborations? 
+                We're in the pre-launch phase and open to conversations about our technology and research.
+            </p>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p>Email: <a href="mailto:ammar@tactua.com" style="color: var(--primary-color); text-decoration: none;">ammar@tactua.com</a></p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>Readsight | Pre-launch Platform | Coming Soon</p>
+            <div class="footer-links">
+                <a href="#">Development Updates</a>
+                <a href="#">Research Blog</a>
+                <a href="#">Get Notified</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
