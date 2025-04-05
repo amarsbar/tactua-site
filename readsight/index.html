@@ -256,6 +256,11 @@
             display: block;
         }
         
+        /* Hide roadmap section but maintain its presence for layout */
+        #roadmap {
+            display: none;
+        }
+        
         @media (max-width: 900px) {
             .about-content {
                 flex-direction: column;
@@ -443,29 +448,9 @@
         </div>
     </section>
     
+    <!-- Keep roadmap section in DOM but hide it with CSS -->
     <section id="roadmap">
-        <div class="container">
-            <h2 class="section-title">Development Roadmap</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">Current Phase</div>
-                    <h3>Research & Initial Development</h3>
-                    <p>
-                        Developing our volunteer research platform and implementing advanced tracking mechanisms to gather high-quality data. 
-                        Simultaneously, we're designing our initial prediction algorithms and integrating scroll pattern analysis with 
-                        eye movement tracking to create our first generation of attention heatmaps.
-                    </p>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">End of March 2025</div>
-                    <h3>Prototype Completion</h3>
-                    <p>
-                        Fully operational data-collection site and prototype prediction model ready for initial testing
-                        and validation with publishing partners.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <!-- Empty section that maintains the document structure -->
     </section>
     
     <section class="cta-section">
